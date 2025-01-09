@@ -1,0 +1,63 @@
+this is director for data.
+This directory stores all datasets and metadata
+
+表名	含义
+user	包含普通用户和管理员的账号、昵称、密码等信息
+exception	实时数据出现的异常情况
+strawberryhouse	大棚内的相关环境参数
+svr_predict	使用支持向量机算法预测出的数据
+
+表2：人员表
+列名	数据类型	空/非空	约束条件	列描述
+user_id	int	非空	主键	用户ID
+dept_id	int			部门ID
+user_name	varchar	非空		用户账号
+nick_name	varchar	非空		用户昵称
+user_type	varchar			用户类型（00系统用户）
+email	varchar			用户邮箱
+phonenumber	varchar			手机号码
+sex	char			用户性别（0男 1女 2未知）
+avatar	varchar			头像地址
+password	varchar			密码
+status	char			帐号状态（0正常 1停用）
+del_flag	char			删除标志（0代表存在 2代表删除）
+login_ip	varchar			最后登录IP
+login_date	datetime			最后登录时间
+create_by	varchar			创建者
+create_time	datetime			创建时间
+update_by	varchar			更新者
+update_time	datetime			更新时间
+remark	varchar			备注
+
+
+表3：异常记录表
+列名	数据类型	空/非空	约束条件	列描述
+current_datetime	varchar			日期
+largeshelfId	varchar			大棚编号
+exception_info	varchar			异常信息
+exception_treasure	varchar			异常指标
+
+
+表4：大棚环境信息表
+列名	数据类型	空/非空	约束条件	列描述
+LargeShelfId	varchar	非空	主键	大棚id
+Time	varchar	非空		设备时间
+AirTemperature	int	非空		空气温度
+AirHumidity	int			空气湿度
+SoilTemperature	int			土壤温度
+SoilHumidity	int			土壤湿度
+CO2	int			CO2浓度
+LIghtIbtensity	int		默认0	光照强度
+HeaterStatus	varchar			加热器状态
+HumidifierStatus	varchar			加湿器状态
+SensorStatus	varchar			传感器状态
+
+
+表5：草莓产量预测表
+列名	数据类型	空/非空	约束条件	列描述
+id	varchar			大棚编号
+datetm	varchar			日期
+pro_actual	double			每日产量真实值
+pro_predict	double			每日产量预测值
+avg_actual	double			平均果实个数真实值
+avg_predict	double			平均果实个数预测值
