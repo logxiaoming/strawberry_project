@@ -1,11 +1,13 @@
 this is director for data.
 This directory stores all datasets and metadata
 
+
 表名	含义
 user	包含普通用户和管理员的账号、昵称、密码等信息
 exception	实时数据出现的异常情况
 strawberryhouse	大棚内的相关环境参数
 svr_predict	使用支持向量机算法预测出的数据
+
 
 表2：人员表
 列名	数据类型	空/非空	约束条件	列描述
