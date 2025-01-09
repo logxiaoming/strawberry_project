@@ -1,0 +1,100 @@
+先建立数据库并使用该数据库
+create database if not exists StrawBerry;
+use StrawBerry;
+
+
+1，创建大棚数据表
+create table if not exists strawberryhouse
+(LargeShelfId string comment '大棚id',
+Time string comment '设备时间',
+AirTemperature int comment '空气温度',
+AirHumidity int comment '空气湿度',
+SoilTemperature int comment '土壤温度',
+SoilHumidity int comment '土壤湿度',
+CO2 int comment 'CO2浓度',
+LIghtIbtensity int comment '光照强度',
+HeaterStatus string comment '加热器状态',
+HumidifierStatus string comment '加湿器状态',
+SensorStatus string comment '传感器状态'
+)
+row format delimited fields terminated by ','
+lines terminated by '\n'
+tblproperties("skip.header.line.count"="1") ;
+
+
+创建支持acid的表：
+create table if not exists strawberryhouse1
+(LargeShelfId string comment '大棚id',
+Time string comment '设备时间',
+AirTemperature int comment '空气温度',
+AirHumidity int comment '空气湿度',
+SoilTemperature int comment '土壤温度',
+SoilHumidity int comment '土壤湿度',
+CO2 int comment 'CO2浓度',
+LIghtIbtensity int comment '光照强度',
+HeaterStatus string comment '加热器状态',
+HumidifierStatus string comment '加湿器状态',
+SensorStatus string comment '传感器状态'
+)
+row format delimited fields terminated by ','
+lines terminated by '\n'
+STORED AS ORC  
+TBLPROPERTIES ("skip.header.line.count"="1",'transactional'='true');
+
+
+将本地文件导入到strawberryHouse表中
+load data local inpath '/data/mydb/datawithnoise1.csv' overwrite into table strawberryhouse;
+
+
+查看导入是否成功
+show tables;
+select * from strawberryhouse limit5;
+
+
+2，数据清洗：删除包含异常值、缺失值的行
+create table strawberryhouse1 as
+select * from strawberryhouse
+where AirTemperature>0 and AirTemperature<=30
+and AirHumidity>0 and AirHumidity<=100
+and SoilTemperature>0 and SoilTemperature<=30
+and SoilHumidity>0 and SoilHumidity<=100
+and CO2<10000 ;
+
+update strawberryhouse
+set LIghtIbtensity=0
+where LIghtIbtensity is null
+commit;
+
+加上噪声数据集总共有9003条数据，现在清洗之后有8661条数据，表示数据处理成功。
+
+
+3、分别建立每个大棚的数据表
+create table p001 as 
+select * from strawberryhouse
+where LargeShelfId='p001';
+
+create table p002 as 
+select * from strawberryhouse
+where LargeShelfId='p002';
+
+create table p003 as 
+select * from strawberryhouse1
+where LargeShelfId='p003';
+
+create table p004 as 
+select * from strawberryhouse1
+where LargeShelfId='p004';
+
+create table p005 as 
+select * from strawberryhouse1
+where LargeShelfId='p005';
+
+create table p006 as 
+select * from strawberryhouse1
+where LargeShelfId='p006';
+
+
+3、查询各大棚的平均环境属性
+select LargeShelfId,avg(AirTemperature)  avg_AirTemperature,avg(AirHumidity) avg_AirHUmidity, avg(SoilTemperature) avg_SoilTemperature, avg(SoilHumidity) avg_SoilHumidity,avg(CO2) avg_CO2 from strawberryHouse1 group by LargeShelfId  as avg_Info;
+
+

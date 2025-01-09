@@ -1,0 +1,82 @@
+启动Hadoop集群：
+/data/app/hadoop/sbin/start-dfs.sh
+/data/app/hadoop/sbin/start-yarn.sh
+
+/data/app/hadoop/sbin/stop-dfs.sh
+/data/app/hadoop/sbin/stop-yarn.sh
+
+
+启动zookeeper集群：
+/data/app/zookeeper/bin/zkServer.sh start
+/data/app/zookeeper/bin/zkServer.sh stop
+
+
+
+启动虚拟机mysql服务
+systemctl start  mysqld.service（需要root权限验证，密码是1）
+service mysqld status
+
+客户端直接启动：mysql -u imooc -p（输入密码：imooc）
+
+
+
+启动hive并进入终端：/data/app/hive/bin/hive
+
+启动canal：
+bin/startup.sh
+bin/stop.sh
+canal下启动kafka消费者：bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --from-beginning --topic example
+
+
+
+启动kafka：
+/data/app/kafka/bin/kafka-server-start.sh -daemon config/server.properties
+/data/app/kafka/bin/kafka-server-stop.sh 
+
+创建topic：bin/kafka-topics.sh --zookeeper localhost:2181 --create --topic test --replication-factor 1 --partitions 1
+删除topic：bin/kafka-topics.sh --delete --zookeeper localhost:2181 --topic test
+查看topic：bin/kafka-topics.sh --zookeeper localhost:2181 --describe --topic test
+
+消费者消费Topic：bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic test
+
+生产者向Topic发送消息：bin/kafka-console-producer.sh --broker-list localhost:9092 --topic test
+
+查看消费者组：bin/kafka-consumer-groups.sh --bootstrap-server localhost:9092 --list
+
+
+启动spark服务：
+/data/app/spark/sbin/start-all.sh
+/data/app/spark/sbin/stop-all.sh
+
+进入spark终端：
+scala终端：/data/app/spark/bin/spark-shell
+python终端：/data/app/spark/bin/pyspark
+
+spark直接提交运行.py程序：/data/app/spark/bin/spark-submit FileStreaming.py 
+
+
+启动flink集群：
+/data/app/flink/bin/start-cluster.sh
+/data/app/flink/bin/stop-cluster.sh
+
+查看flink集群：
+http://192.168.197.129:8081
+
+提交作业：(这里必须指明要运行的类名称)
+/data/app/flink/flink run --class scala.StreamWordCount  lib/_7_16-1.0-SNAPSHOT.jar
+
+PLAINTEXT://192.168.197.129:9092
+
+正常数据：
+p001 2024/3/1  10 70 20 76 781 0 正常 正常 正常
+模拟异常数据：
+p001 2024/3/1  1000 70 20 76 781 0 正常 正常 正常
+p001 2024/3/1  20 -10 20 76 781 0 正常 正常 正常
+p001 2024/3/1  10 70 2000 76 781 0 正常 正常 正常
+p001 2024/3/1  10 70 20 760 781 0 正常 正常 正常
+p001 2024/3/1  10 70 20 76 7801 0 正常 正常 正常
+p001 2024/3/1  10 70 20 76 781 800000 正常 正常 正常
+p001 2024/3/1  10 70 20 76 781 0 异常 正常 正常
+p001 2024/3/1  10 70 20 76 781 0 正常 异常 正常
+p001 2024/3/1  10 70 20 76 781 0 正常 正常 异常
+
