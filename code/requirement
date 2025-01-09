@@ -1,0 +1,14 @@
+The environment required for the project mainly includes the following:
+jdk	1.8
+mysql	8.0
+maven	3.6.3
+kafka	2.4.1
+flink	1.12.1
+scala	2.12
+canal	1.1.4
+hadoop	3.3.1
+zookeeper	3.6.3
+mqtt	5.3.2
+FineBI	6.0
+RuoYi	3.3.0
+Echarts	5.5.0
