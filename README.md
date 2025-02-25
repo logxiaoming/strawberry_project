@@ -1,6 +1,6 @@
 # 草莓大棚实时数据异常监测系统
 
-![系统界面](https://github.com/logxiaoming/strawberry_project/main/about/a.png)
+![系统界面](https://github.com/logxiaoming/strawberry_project/about/a.png)
 
 ## 一、项目概述
 草莓大棚实时数据异常监测系统是一个用于监测草莓大棚内 环境参数（如温度、湿
